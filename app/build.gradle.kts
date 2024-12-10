@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.samuelconra.recipesapp"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.samuelconra.recipesapp"
@@ -63,4 +63,17 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // NAV CONTROLLER
+    implementation(libs.androidx.navigation.compose)
+
+    //ASYNC IMAGE
+    implementation(libs.coil.compose)
+
+    //RETROFIT
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+
+    implementation(libs.androidx.material.icons.extended)
 }
