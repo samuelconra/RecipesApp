@@ -3,6 +3,8 @@ package com.samuelconra.recipesapp.ui.screens
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -18,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.samuelconra.recipesapp.ui.components.CarouselRecipe
+import com.samuelconra.recipesapp.ui.components.RecipeCard
 
 @Composable
 fun HomeScreen(innerPadding: PaddingValues, navController: NavController) {
@@ -71,6 +74,7 @@ fun HomeScreen(innerPadding: PaddingValues, navController: NavController) {
             verticalArrangement = Arrangement.spacedBy(25.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ){
+            // Title
             Text(
                 text = "Categorías",
                 style = MaterialTheme.typography.titleLarge,
@@ -79,6 +83,7 @@ fun HomeScreen(innerPadding: PaddingValues, navController: NavController) {
 
             var selectedCategory by rememberSaveable { mutableStateOf(0) }
 
+            // Menu categories
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -107,9 +112,44 @@ fun HomeScreen(innerPadding: PaddingValues, navController: NavController) {
                         )
                     }
                 }
-
-                // GET RECIPES BY CATEGORY (categories[selectedCategory])
             }
+
+            // GET RECIPES BY CATEGORY
+            val recipes = listOf(
+                mapOf(
+                    "name" to "Ensalada",
+                    "imageUrl" to "https://www.allrecipes.com/thmb/mvO1mRRH1zTz1SvbwBCTz78CRJI=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/67700_RichPastaforthePoorKitchen_ddmfs_4x3_2284-220302ec8328442096df370dede357d7.jpg",
+                    "time" to 40,
+                    "difficulty" to "Fácil"
+                ),
+                mapOf(
+                    "name" to "Sopa",
+                    "imageUrl" to "https://cdn.loveandlemons.com/wp-content/uploads/2024/07/ratatouille.jpg",
+                    "time" to 30,
+                    "difficulty" to "Media"
+                ),
+                mapOf(
+                    "name" to "Postre",
+                    "imageUrl" to "https://hips.hearstapps.com/hmg-prod/images/best-soup-recipes-cheeseburger-soup-67042870d53fe.png?crop=1.00xw:1.00xh;0,0&resize=980:*",
+                    "time" to 15,
+                    "difficulty" to "Fácil"
+                )
+            )
+
+            Column(
+                modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp),
+                verticalArrangement = Arrangement.spacedBy(20.dp) // Espacio entre elementos
+            ) {
+                recipes.forEach { recipe ->
+                    RecipeCard(
+                        name = recipe["name"] as String,
+                        imageUrl = recipe["imageUrl"] as String,
+                        time = recipe["time"] as Int,
+                        difficulty = recipe["difficulty"] as String
+                    )
+                }
+            }
+
         }
     }
 }
