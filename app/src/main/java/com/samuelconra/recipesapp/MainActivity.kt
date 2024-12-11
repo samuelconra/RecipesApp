@@ -29,6 +29,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.samuelconra.recipesapp.models.BottomNavItem
 import com.samuelconra.recipesapp.ui.components.BottomNavigationView
+import com.samuelconra.recipesapp.ui.screens.FavoriteRecipesScreen
 import com.samuelconra.recipesapp.ui.screens.HomeScreen
 import com.samuelconra.recipesapp.ui.screens.LoginScreen
 import com.samuelconra.recipesapp.ui.screens.RecipeScreen
@@ -49,7 +50,7 @@ class MainActivity : ComponentActivity() {
                 ){ innerPadding ->
                     NavHost(navController = navController, startDestination = Screens.Home.route) {
                         composable(route = Screens.Login.route) {
-                            // TO DO
+                            LoginScreen(innerPadding, navController)
                         }
                         composable(route = Screens.SingUp.route) {
                             // TO DO
@@ -58,10 +59,7 @@ class MainActivity : ComponentActivity() {
                             HomeScreen(innerPadding, navController)
                         }
                         composable(route = Screens.Favorites.route) {
-                            LoginScreen(innerPadding, navController)
-                        }
-                        composable(route = Screens.Login.route) {
-                            // TO DO
+                            FavoriteRecipesScreen(innerPadding, navController)
                         }
                         composable(
                             route = Screens.Recipe.route + "/{recipeId}",
@@ -72,7 +70,7 @@ class MainActivity : ComponentActivity() {
                             )
                         ){
                             val recipeId = it.arguments?.getInt("recipeId") ?: 0
-                            RecipeScreen(innerPadding, navController,recipeId)
+                            RecipeScreen(innerPadding, navController, recipeId)
                         }
                         composable(route = Screens.RecipeStep.route) {
                             // TO DO
