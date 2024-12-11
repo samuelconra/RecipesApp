@@ -1,5 +1,7 @@
 package com.samuelconra.recipesapp.services
 
+import com.samuelconra.recipesapp.dtos.AddFavorite
+import com.samuelconra.recipesapp.dtos.AddFavoriteResponse
 import com.samuelconra.recipesapp.dtos.Favorite
 import com.samuelconra.recipesapp.dtos.FavoriteResponse
 import com.samuelconra.recipesapp.models.Recipe
@@ -24,7 +26,7 @@ interface RecipeService {
     suspend fun get_most_popular(): Response<Recipe>
 
     @POST("users/favorites")
-    suspend fun add_favorite(@Body fav: Favorite): Response<FavoriteResponse>
+    suspend fun add_favorite(@Body request: AddFavorite): Response<AddFavoriteResponse>
 
     @DELETE("users/{user_id}/favorites")
     suspend fun remove_favorite(@Path("user_id") user_id: Int, @Query("recipe_id") recipe_id: Int): Response<FavoriteResponse>

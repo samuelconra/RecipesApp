@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 ){ innerPadding ->
-                    NavHost(navController = navController, startDestination = Screens.Home.route) {
+                    NavHost(navController = navController, startDestination = Screens.Login.route) {
                         composable(route = Screens.Login.route) {
                             LoginScreen(innerPadding, navController)
                         }
