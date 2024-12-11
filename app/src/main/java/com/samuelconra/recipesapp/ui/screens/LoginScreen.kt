@@ -118,18 +118,19 @@ fun LoginScreen(innerPadding: PaddingValues, navController: NavController) {
                 scope.launch(Dispatchers.IO) {
                     val authService = Retrofit
                         .Builder()
-                        .baseUrl("https://recipes-api-gyam.onrender.com/docs#/")
+                        .baseUrl("https://recipes-api-gyam.onrender.com/")
                         .addConverterFactory(GsonConverterFactory.create())
                         .build()
                         .create(AuthService::class.java)
 
-                    val auth = Auth(email, password)
+                    val auth = Auth(identifier=email, password=password)
                     val response = authService.login(auth)
+                    Log.i("Login User", response.toString())
 
                     if (response.body()?.email == email) {
                         withContext(Dispatchers.Main) {
                             sharedPref.saveUserSharedPref(
-                                userId = response.body()?.userId ?: 0,
+                                userId = response.body()?.id ?: 0,
                                 isLogged = true
                             )
 

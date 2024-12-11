@@ -68,7 +68,7 @@ class MainActivity : ComponentActivity() {
                             FavoriteRecipesScreen(innerPadding, navController)
                         }
                         composable(
-                            route = Screens.Recipe.route + "/{recipeId}",
+                            route = Screens.RecipeScreen.route + "/{recipeId}",
                             arguments = listOf(
                                 navArgument("recipeId") {
                                     type = NavType.IntType

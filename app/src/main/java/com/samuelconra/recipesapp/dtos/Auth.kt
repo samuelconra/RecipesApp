@@ -1,6 +1,6 @@
 package com.samuelconra.recipesapp.dtos
 
 data class Auth(
-    val email: String,
+    val identifier: String,
     val password: String
 )
