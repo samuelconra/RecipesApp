@@ -16,10 +16,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.samuelconra.recipesapp.models.Recipe
 import com.samuelconra.recipesapp.utils.Bookmark
 
 @Composable
-fun RecipeCard(recipe: Map<String, Any>, onClick: () -> Unit) {
+fun RecipeCard(recipe: Recipe, onClick: () -> Unit) {
     Row (
         modifier = Modifier
             .fillMaxWidth()
@@ -33,7 +34,7 @@ fun RecipeCard(recipe: Map<String, Any>, onClick: () -> Unit) {
         horizontalArrangement = Arrangement.spacedBy(20.dp)
     ){
         AsyncImage(
-            model = recipe["imageUrl"].toString(),
+            model = recipe.image,
             contentDescription = null,
             modifier = Modifier
                 .size(100.dp)
@@ -49,12 +50,12 @@ fun RecipeCard(recipe: Map<String, Any>, onClick: () -> Unit) {
             modifier = Modifier.weight(1f),
         ){
             Text(
-                text = recipe["name"].toString(),
+                text = recipe.name,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.primary,
             )
             Text(
-                text = "${recipe["time"].toString()} min | ${recipe["difficulty"].toString()}",
+                text = "${recipe.duration} min | ${recipe.difficulty}",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onBackground,
             )
@@ -65,7 +66,10 @@ fun RecipeCard(recipe: Map<String, Any>, onClick: () -> Unit) {
             contentDescription = null,
             modifier = Modifier
                 .padding(end = 20.dp)
-                .size(25.dp),
+                .size(25.dp)
+                .clickable {
+
+                },
             tint = MaterialTheme.colorScheme.onSecondary,
         )
     }
