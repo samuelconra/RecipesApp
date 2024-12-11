@@ -1,6 +1,7 @@
 package com.samuelconra.recipesapp.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -18,19 +19,21 @@ import coil.compose.AsyncImage
 import com.samuelconra.recipesapp.utils.Bookmark
 
 @Composable
-fun RecipeCard(name: String, imageUrl: String, time: Int, difficulty: String) {
+fun RecipeCard(recipe: Map<String, Any>, onClick: () -> Unit) {
     Row (
         modifier = Modifier
             .fillMaxWidth()
             .height(100.dp)
             .clip(RoundedCornerShape(20.dp))
             .background(MaterialTheme.colorScheme.onPrimary)
-            .padding(end = 20.dp),
+            .clickable{
+                onClick()
+            },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(20.dp)
     ){
         AsyncImage(
-            model = imageUrl,
+            model = recipe["imageUrl"].toString(),
             contentDescription = null,
             modifier = Modifier
                 .size(100.dp)
@@ -46,12 +49,12 @@ fun RecipeCard(name: String, imageUrl: String, time: Int, difficulty: String) {
             modifier = Modifier.weight(1f),
         ){
             Text(
-                text = name,
+                text = recipe["name"].toString(),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.primary,
             )
             Text(
-                text = "$time min | $difficulty",
+                text = "${recipe["time"].toString()} min | ${recipe["difficulty"].toString()}",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onBackground,
             )
@@ -60,7 +63,9 @@ fun RecipeCard(name: String, imageUrl: String, time: Int, difficulty: String) {
         Icon(
             imageVector = Bookmark,
             contentDescription = null,
-            modifier = Modifier.size(25.dp),
+            modifier = Modifier
+                .padding(end = 20.dp)
+                .size(25.dp),
             tint = MaterialTheme.colorScheme.onSecondary,
         )
     }

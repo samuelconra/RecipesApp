@@ -21,14 +21,17 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.samuelconra.recipesapp.models.BottomNavItem
 import com.samuelconra.recipesapp.ui.components.BottomNavigationView
 import com.samuelconra.recipesapp.ui.screens.HomeScreen
 import com.samuelconra.recipesapp.ui.screens.LoginScreen
+import com.samuelconra.recipesapp.ui.screens.RecipeScreen
 import com.samuelconra.recipesapp.ui.theme.RecipesAppTheme
 import com.samuelconra.recipesapp.utils.Screens
 
@@ -60,8 +63,16 @@ class MainActivity : ComponentActivity() {
                         composable(route = Screens.Login.route) {
                             // TO DO
                         }
-                        composable(route = Screens.Recipe.route) {
-                            // TO DO
+                        composable(
+                            route = Screens.Recipe.route + "/{recipeId}",
+                            arguments = listOf(
+                                navArgument("recipeId") {
+                                    type = NavType.IntType
+                                }
+                            )
+                        ){
+                            val recipeId = it.arguments?.getInt("recipeId") ?: 0
+                            RecipeScreen(innerPadding, navController,recipeId)
                         }
                         composable(route = Screens.RecipeStep.route) {
                             // TO DO
