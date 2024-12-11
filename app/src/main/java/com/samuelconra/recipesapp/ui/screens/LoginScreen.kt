@@ -173,8 +173,6 @@ fun LoginScreen(innerPadding: PaddingValues, navController: NavController) {
                 }
             )
         }
-
-
     }
 }
 @Preview(showBackground = true)
