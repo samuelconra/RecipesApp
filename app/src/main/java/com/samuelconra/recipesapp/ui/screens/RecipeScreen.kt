@@ -9,19 +9,24 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.samuelconra.recipesapp.dtos.AddFavorite
 import com.samuelconra.recipesapp.dtos.Auth
 import com.samuelconra.recipesapp.models.Recipe
 import com.samuelconra.recipesapp.services.AuthService
 import com.samuelconra.recipesapp.services.RecipeService
+import com.samuelconra.recipesapp.use_cases.SharedPref
 import com.samuelconra.recipesapp.utils.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,6 +38,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 fun RecipeScreen(innerPadding: PaddingValues, navController: NavController, recipeId: Int) {
     val scope = rememberCoroutineScope()
     var recipe by remember { mutableStateOf(Recipe())}
+    val sharedPref = SharedPref(LocalContext.current)
+    val userId = sharedPref.getUserIdSharedPref()
+    var isFavorite by remember { mutableStateOf(false) }
     var isLoading by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = true) {
@@ -49,6 +57,28 @@ fun RecipeScreen(innerPadding: PaddingValues, navController: NavController, reci
                 val response = recipeService.get_recipe_by_id(id = recipeId)
                 recipe = response.body() ?: Recipe()
                 isLoading = false
+            } catch (e: Exception) {
+                Log.i("Recipe Category", e.toString())
+            }
+        }
+    }
+
+    LaunchedEffect(key1 = true) {
+        scope.launch(Dispatchers.IO) {
+            try{
+                val recipeService = Retrofit
+                    .Builder()
+                    .baseUrl("https://recipes-api-gyam.onrender.com/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+                    .create(RecipeService::class.java)
+
+                val response = recipeService.get_favorites(userId)
+                for (recipe_fav in response.body()!!) {
+                    if (recipe_fav.id == recipe.id){
+                        isFavorite = true
+                    }
+                }
             } catch (e: Exception) {
                 Log.i("Recipe Category", e.toString())
             }
@@ -93,10 +123,38 @@ fun RecipeScreen(innerPadding: PaddingValues, navController: NavController, reci
                         }
                 )
                 Icon(
-                    imageVector = BookmarkFilled,
+                    imageVector = if (isFavorite) BookmarkFilled else Bookmark,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(30.dp)
+                        .clickable {
+                            scope.launch(Dispatchers.IO) {
+                                try{
+                                    val recipeService = Retrofit
+                                        .Builder()
+                                        .baseUrl("https://recipes-api-gyam.onrender.com/")
+                                        .addConverterFactory(GsonConverterFactory.create())
+                                        .build()
+                                        .create(RecipeService::class.java)
+
+                                    isLoading = true
+
+                                    if (isFavorite){
+                                        val response = recipeService.remove_favorite(user_id = userId, recipe_id = recipe.id)
+                                        Log.i("Recipe Favorite", response.toString())
+                                        isFavorite = false
+                                    } else {
+                                        val response = recipeService.add_favorite(AddFavorite(recipe_id = recipe.id, user_id = userId))
+                                        Log.i("Recipe Favorite", response.toString())
+                                        isFavorite = true
+                                    }
+
+                                    isLoading = false
+                                } catch (e: Exception) {
+                                    Log.i("Recipe Category", e.toString())
+                                }
+                            }
+                        }
                 )
             }
 

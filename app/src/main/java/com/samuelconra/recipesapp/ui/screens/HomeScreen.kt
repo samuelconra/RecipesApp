@@ -124,7 +124,7 @@ fun HomeScreen(innerPadding: PaddingValues, navController: NavController) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
                 Text(
-                    text = "Populares",
+                    text = "Top #1",
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.primary,
                 )
