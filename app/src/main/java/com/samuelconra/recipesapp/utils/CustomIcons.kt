@@ -577,3 +577,107 @@ public val User: ImageVector
     }
 
 private var _User: ImageVector? = null
+
+public val LockClosed: ImageVector
+    get() {
+        if (_LockClosed != null) {
+            return _LockClosed!!
+        }
+        _LockClosed = ImageVector.Builder(
+            name = "LockClosed",
+            defaultWidth = 24.dp,
+            defaultHeight = 24.dp,
+            viewportWidth = 24f,
+            viewportHeight = 24f
+        ).apply {
+            path(
+                fill = null,
+                fillAlpha = 1.0f,
+                stroke = SolidColor(Color(0xFF0F172A)),
+                strokeAlpha = 1.0f,
+                strokeLineWidth = 1.5f,
+                strokeLineCap = StrokeCap.Round,
+                strokeLineJoin = StrokeJoin.Round,
+                strokeLineMiter = 1.0f,
+                pathFillType = PathFillType.NonZero
+            ) {
+                moveTo(16.5f, 10.5f)
+                verticalLineTo(6.75f)
+                curveTo(16.5f, 4.2647f, 14.4853f, 2.25f, 12f, 2.25f)
+                curveTo(9.5147f, 2.25f, 7.5f, 4.2647f, 7.5f, 6.75f)
+                verticalLineTo(10.5f)
+                moveTo(6.75f, 21.75f)
+                horizontalLineTo(17.25f)
+                curveTo(18.4926f, 21.75f, 19.5f, 20.7426f, 19.5f, 19.5f)
+                verticalLineTo(12.75f)
+                curveTo(19.5f, 11.5074f, 18.4926f, 10.5f, 17.25f, 10.5f)
+                horizontalLineTo(6.75f)
+                curveTo(5.5074f, 10.5f, 4.5f, 11.5074f, 4.5f, 12.75f)
+                verticalLineTo(19.5f)
+                curveTo(4.5f, 20.7426f, 5.5074f, 21.75f, 6.75f, 21.75f)
+                close()
+            }
+        }.build()
+        return _LockClosed!!
+    }
+
+private var _LockClosed: ImageVector? = null
+
+public val Mail: ImageVector
+    get() {
+        if (_Mail != null) {
+            return _Mail!!
+        }
+        _Mail = ImageVector.Builder(
+            name = "Mail",
+            defaultWidth = 24.dp,
+            defaultHeight = 24.dp,
+            viewportWidth = 960f,
+            viewportHeight = 960f
+        ).apply {
+            path(
+                fill = SolidColor(Color.Black),
+                fillAlpha = 1.0f,
+                stroke = null,
+                strokeAlpha = 1.0f,
+                strokeLineWidth = 1.0f,
+                strokeLineCap = StrokeCap.Butt,
+                strokeLineJoin = StrokeJoin.Miter,
+                strokeLineMiter = 1.0f,
+                pathFillType = PathFillType.NonZero
+            ) {
+                moveTo(160f, 800f)
+                quadToRelative(-33f, 0f, -56.5f, -23.5f)
+                reflectiveQuadTo(80f, 720f)
+                verticalLineToRelative(-480f)
+                quadToRelative(0f, -33f, 23.5f, -56.5f)
+                reflectiveQuadTo(160f, 160f)
+                horizontalLineToRelative(640f)
+                quadToRelative(33f, 0f, 56.5f, 23.5f)
+                reflectiveQuadTo(880f, 240f)
+                verticalLineToRelative(480f)
+                quadToRelative(0f, 33f, -23.5f, 56.5f)
+                reflectiveQuadTo(800f, 800f)
+                close()
+                moveToRelative(320f, -280f)
+                lineTo(160f, 320f)
+                verticalLineToRelative(400f)
+                horizontalLineToRelative(640f)
+                verticalLineToRelative(-400f)
+                close()
+                moveToRelative(0f, -80f)
+                lineToRelative(320f, -200f)
+                horizontalLineTo(160f)
+                close()
+                moveTo(160f, 320f)
+                verticalLineToRelative(-80f)
+                verticalLineToRelative(480f)
+                close()
+            }
+        }.build()
+        return _Mail!!
+    }
+
+private var _Mail: ImageVector? = null
+
+

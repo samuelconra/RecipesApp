@@ -31,6 +31,8 @@ import com.samuelconra.recipesapp.services.AuthService
 import com.samuelconra.recipesapp.ui.theme.RecipesAppTheme
 import com.samuelconra.recipesapp.use_cases.SharedPref
 import com.samuelconra.recipesapp.utils.Lock
+import com.samuelconra.recipesapp.utils.LockClosed
+import com.samuelconra.recipesapp.utils.Mail
 import com.samuelconra.recipesapp.utils.Screens
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -85,7 +87,7 @@ fun LoginScreen(innerPadding: PaddingValues, navController: NavController) {
                 unfocusedBorderColor = Color.Gray
             ),
             trailingIcon = {
-                Icon(imageVector = Icons.Default.Email, contentDescription = "email")
+                Icon(imageVector = Mail, contentDescription = "email")
             }
         )
 
@@ -107,7 +109,7 @@ fun LoginScreen(innerPadding: PaddingValues, navController: NavController) {
                 unfocusedBorderColor = Color.Gray
             ),
             trailingIcon = {
-                Icon(imageVector = Lock, contentDescription = "email")
+                Icon(imageVector = LockClosed, contentDescription = "email")
             }
         )
 

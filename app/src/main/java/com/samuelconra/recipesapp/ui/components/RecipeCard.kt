@@ -68,7 +68,7 @@ fun RecipeCard(recipe: Recipe, onClick: () -> Unit) {
                 .padding(end = 20.dp)
                 .size(25.dp)
                 .clickable {
-
+                    // aquí se agrega a favoritos
                 },
             tint = MaterialTheme.colorScheme.onSecondary,
         )

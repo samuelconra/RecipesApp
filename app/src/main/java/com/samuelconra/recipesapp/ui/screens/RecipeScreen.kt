@@ -239,7 +239,9 @@ fun RecipeScreen(innerPadding: PaddingValues, navController: NavController, reci
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(20.dp)),
-                onClick = { },
+                onClick = {
+                    navController.navigate(Screens.RecipeStep.route + "/${recipe.id}")
+                },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.surface,
                 )

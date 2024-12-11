@@ -30,7 +30,7 @@ fun RecipeStep(stepNumber: Int, instruction: String) {
             text = instruction,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.primary,
-            textAlign = TextAlign.Justify,
+            textAlign = TextAlign.Center,
         )
     }
 }
