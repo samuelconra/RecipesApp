@@ -9,6 +9,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -17,58 +18,46 @@ import com.samuelconra.recipesapp.models.BottomNavItem
 @Composable
 fun BottomNavigationView(navController: NavController, selectedItem: MutableState<Int>) {
     NavigationBar(
-        //containerColor = MaterialTheme.colorScheme.primaryContainer,
-        containerColor = Color.Transparent,
+        containerColor = MaterialTheme.colorScheme.onPrimary,
         modifier = Modifier
-            .clip(RoundedCornerShape(30.dp))
+            .shadow(
+                elevation = 10.dp,
+                spotColor = Color.Black,
+                shape = RoundedCornerShape(30.dp)
+            )
             .padding(0.dp)
             //.blur(16.dp)
     ) {
-        Box(
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(100.dp)
-                .offset(y = 25.dp)
-                .clip(RoundedCornerShape(30.dp))
-        ){
-            Box(
-                modifier = Modifier.matchParentSize()
-                    .blur(16.dp)
-                    .background(MaterialTheme.colorScheme.primaryContainer)
-            )
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 60.dp),
-            ) {
-                BottomNavItem.items.forEachIndexed { index, item ->
-                    NavigationBarItem(
-                        selected = selectedItem.value == index,
-                        onClick = {
-                            selectedItem.value = index
-                            navController.navigate(item.route) {
-                                popUpTo(navController.graph.startDestinationId) { saveState = true }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
-                        icon = {
-                            Icon(
-                                imageVector = item.icon,
-                                contentDescription = item.title,
-                                modifier = if (index==0) Modifier.size(40.dp) else Modifier.size(35.dp)
-                            )
-                        },
-                        colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = MaterialTheme.colorScheme.primary,
-                            unselectedIconColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
-                            indicatorColor = Color.Transparent
+                .padding(horizontal = 60.dp),
+        ) {
+            BottomNavItem.items.forEachIndexed { index, item ->
+                NavigationBarItem(
+                    selected = selectedItem.value == index,
+                    onClick = {
+                        selectedItem.value = index
+                        navController.navigate(item.route) {
+                            popUpTo(navController.graph.startDestinationId) { saveState = true }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = item.icon,
+                            contentDescription = item.title,
+                            modifier = if (index==0) Modifier.size(40.dp) else Modifier.size(35.dp)
                         )
+                    },
+                    colors = NavigationBarItemDefaults.colors(
+                        selectedIconColor = MaterialTheme.colorScheme.primary,
+                        unselectedIconColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
+                        indicatorColor = Color.Transparent
                     )
-                }
+                )
             }
         }
     }
-
 }
