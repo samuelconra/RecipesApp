@@ -43,6 +43,7 @@ fun HomeScreen(innerPadding: PaddingValues, navController: NavController) {
     val categoriesEndpoint = listOf("BREAKFAST", "MAIN_COURSE", "DINNER", "BEVERAGE")
     var recipes by remember { mutableStateOf<List<Recipe>>(emptyList()) }
     var isLoading by remember { mutableStateOf(false) }
+    var isLoading2 by remember { mutableStateOf(false) }
     var recipePopular by remember { mutableStateOf(Recipe())}
 
     LaunchedEffect(key1 = true) {
@@ -55,18 +56,18 @@ fun HomeScreen(innerPadding: PaddingValues, navController: NavController) {
                     .build()
                     .create(RecipeService::class.java)
 
-                isLoading = true
+                isLoading2 = true
                 val response = recipeService.get_most_popular()
                 recipePopular = response.body() ?: Recipe()
                 Log.i("Recipe Popular", response.toString())
-                isLoading = false
+                isLoading2 = false
             } catch (e: Exception) {
                 Log.i("Recipe Popular", e.toString())
             }
         }
     }
 
-    if (isLoading){
+    if (isLoading2){
         // LOADER
         Column (
             modifier = Modifier.fillMaxSize(),
@@ -128,7 +129,7 @@ fun HomeScreen(innerPadding: PaddingValues, navController: NavController) {
                     color = MaterialTheme.colorScheme.primary,
                 )
 
-                CarouselRecipe("Ensalada", "Clásica y deliciosa ensalada para disfrutar en casa.", "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",40, "Fácil", 1, 5)
+                CarouselRecipe(recipePopular)
             }
 
             // CATEGORIES

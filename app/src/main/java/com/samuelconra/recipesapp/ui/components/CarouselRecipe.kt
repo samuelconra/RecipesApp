@@ -81,7 +81,7 @@ fun CarouselRecipe(recipe: Recipe) {
                    color = MaterialTheme.colorScheme.onTertiary,
                )
                Text(
-                   text = "${recipe.duration} MIN | ${recipe.difficulty}",
+                   text = "${recipe.duration} min | ${recipe.difficulty}",
                    style = MaterialTheme.typography.bodyMedium,
                    color = MaterialTheme.colorScheme.primary,
                )

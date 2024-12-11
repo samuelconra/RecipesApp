@@ -27,12 +27,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.samuelconra.recipesapp.dtos.SingUp
 import com.samuelconra.recipesapp.models.BottomNavItem
 import com.samuelconra.recipesapp.ui.components.BottomNavigationView
-import com.samuelconra.recipesapp.ui.screens.FavoriteRecipesScreen
-import com.samuelconra.recipesapp.ui.screens.HomeScreen
-import com.samuelconra.recipesapp.ui.screens.LoginScreen
-import com.samuelconra.recipesapp.ui.screens.RecipeScreen
+import com.samuelconra.recipesapp.ui.screens.*
 import com.samuelconra.recipesapp.ui.theme.RecipesAppTheme
 import com.samuelconra.recipesapp.utils.Screens
 
@@ -59,7 +57,7 @@ class MainActivity : ComponentActivity() {
                             LoginScreen(innerPadding, navController)
                         }
                         composable(route = Screens.SingUp.route) {
-                            // TO DO
+                            SignupScreen(innerPadding, navController)
                         }
                         composable(route = Screens.Home.route) {
                             HomeScreen(innerPadding, navController)
@@ -78,8 +76,16 @@ class MainActivity : ComponentActivity() {
                             val recipeId = it.arguments?.getInt("recipeId") ?: 0
                             RecipeScreen(innerPadding, navController, recipeId)
                         }
-                        composable(route = Screens.RecipeStep.route) {
-                            // TO DO
+                        composable(
+                            route = Screens.RecipeStep.route + "/{recipeId}",
+                            arguments = listOf(
+                                navArgument("recipeId") {
+                                    type = NavType.IntType
+                                }
+                            )
+                        ){
+                            val recipeId = it.arguments?.getInt("recipeId") ?: 0
+                            RecipeStepScreen(innerPadding, navController, recipeId)
                         }
                     }
                 }

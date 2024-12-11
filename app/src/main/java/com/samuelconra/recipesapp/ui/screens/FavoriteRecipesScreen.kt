@@ -43,7 +43,7 @@ fun FavoriteRecipesScreen(innerPadding: PaddingValues, navController: NavControl
     val scope = rememberCoroutineScope()
     val userId = sharedPref.getUserIdSharedPref()
     var recipes by remember { mutableStateOf<List<Recipe>>(emptyList()) }
-    var user by remember { mutableStateOf<User?>(null) }
+    var user by remember { mutableStateOf(User()) }
     var isLoading by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = true) {
@@ -131,7 +131,7 @@ fun FavoriteRecipesScreen(innerPadding: PaddingValues, navController: NavControl
                 }
 
                 Text(
-                    text = "Samuel",
+                    text = user.name,
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.primary,
                 )
@@ -142,11 +142,6 @@ fun FavoriteRecipesScreen(innerPadding: PaddingValues, navController: NavControl
                 )
             }
 
-            val recipes = listOf(
-                listOf("Ensalada de pollo", "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505"),
-                listOf("Sopa", "https://some-url-to-image.jpg"),
-                listOf("Postre", "https://some-url-to-image.jpg")
-            )
             // FAVORITE RECIPES
             LazyVerticalGrid(
                 modifier = Modifier.fillMaxWidth().weight(1f),
@@ -166,7 +161,7 @@ fun FavoriteRecipesScreen(innerPadding: PaddingValues, navController: NavControl
                         verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
                         AsyncImage(
-                            model = recipe[1],
+                            model = recipe.image,
                             contentDescription = null,
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -180,7 +175,7 @@ fun FavoriteRecipesScreen(innerPadding: PaddingValues, navController: NavControl
                         )
 
                         Text(
-                            text = recipe[0],
+                            text = recipe.name,
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.primary,
                         )
