@@ -20,10 +20,11 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Scale
+import com.samuelconra.recipesapp.models.Recipe
 import com.samuelconra.recipesapp.ui.theme.RecipesAppTheme
 
 @Composable
-fun CarouselRecipe(name: String, description: String, imageUrl: String, time: Int, difficulty: String, index: Int, carouselSize: Int) {
+fun CarouselRecipe(recipe: Recipe) {
     Box(
         modifier = Modifier.fillMaxWidth(),
     ) {
@@ -38,7 +39,7 @@ fun CarouselRecipe(name: String, description: String, imageUrl: String, time: In
                     shape = RoundedCornerShape(20.dp)
                 ),
             model = ImageRequest.Builder(LocalContext.current)
-                .data(imageUrl)
+                .data(recipe.image)
                 .crossfade(true)
                 .scale(Scale.FILL)
                 .build(),
@@ -69,60 +70,22 @@ fun CarouselRecipe(name: String, description: String, imageUrl: String, time: In
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
                Text(
-                   text = name.uppercase(),
+                   text = recipe.name.uppercase(),
                    style = MaterialTheme.typography.titleSmall,
                    color = MaterialTheme.colorScheme.primary,
                )
                Text(
-                   text = description,
+                   text = recipe.short_description,
                    textAlign = TextAlign.Center,
                    style = MaterialTheme.typography.bodySmall,
                    color = MaterialTheme.colorScheme.onTertiary,
                )
                Text(
-                   text = "$time MIN | $difficulty",
+                   text = "${recipe.duration} MIN | ${recipe.difficulty}",
                    style = MaterialTheme.typography.bodyMedium,
                    color = MaterialTheme.colorScheme.primary,
                )
             }
-
-            // DOTS CAROUSEL
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ){
-                for (i in 0..carouselSize){
-                    if (i == index){
-                        Box(
-                            modifier = Modifier
-                                .size(9.dp)
-                                .clip(RoundedCornerShape((4.5).dp))
-                                .background(MaterialTheme.colorScheme.primary)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                    } else {
-                        Box(
-                            modifier = Modifier
-                                .size(7.dp)
-                                .clip(RoundedCornerShape((3.5).dp))
-                                .background(MaterialTheme.colorScheme.surfaceVariant)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                    }
-                }
-            }
-            }
-    }
-}
-
-@Composable
-@Preview(
-    showSystemUi = true,
-    showBackground = true
-)
-fun ItemCarouselPreview() {
-    RecipesAppTheme {
-        CarouselRecipe("Ensalada", "La descripción del platillo", "",40, "Fácil", 1, 5 )
+        }
     }
 }
