@@ -43,10 +43,16 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             val selectedItem = rememberSaveable { mutableIntStateOf(0) }
+            val currentBackStackEntry = navController.currentBackStackEntryAsState()
+            val currentRoute = currentBackStackEntry.value?.destination?.route
             RecipesAppTheme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
-                    bottomBar = { BottomNavigationView(navController, selectedItem) }
+                    bottomBar = {
+                        if (currentRoute !in listOf(Screens.Login.route, Screens.SingUp.route, Screens.RecipeStep.route)) {
+                            BottomNavigationView(navController, selectedItem)
+                        }
+                    }
                 ){ innerPadding ->
                     NavHost(navController = navController, startDestination = Screens.Home.route) {
                         composable(route = Screens.Login.route) {

@@ -9,22 +9,34 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.samuelconra.recipesapp.dtos.Auth
+import com.samuelconra.recipesapp.services.AuthService
+import com.samuelconra.recipesapp.services.RecipeService
 import com.samuelconra.recipesapp.ui.components.CarouselRecipe
 import com.samuelconra.recipesapp.ui.components.RecipeCard
+import com.samuelconra.recipesapp.use_cases.SharedPref
 import com.samuelconra.recipesapp.utils.Screens
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 @Composable
 fun HomeScreen(innerPadding: PaddingValues, navController: NavController) {
+    val scope = rememberCoroutineScope()
+    val sharedPref = SharedPref(LocalContext.current)
+    val categories = listOf("Desayunos", "Comidas", "Cenas", "Bebidas")
+    var recipes by remember { mutableStateOf<List<Recipe>>(emptyList()) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -90,7 +102,6 @@ fun HomeScreen(innerPadding: PaddingValues, navController: NavController) {
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ){
-                val categories = listOf("Desayunos", "Comidas", "Cenas", "Bebidas")
                 categories.forEachIndexed { index, category ->
                     Column(
                         verticalArrangement = Arrangement.spacedBy(5.dp),
@@ -115,31 +126,28 @@ fun HomeScreen(innerPadding: PaddingValues, navController: NavController) {
                 }
             }
 
-            // GET RECIPES BY CATEGORY
-            val recipes = listOf(
-                mapOf(
-                    "name" to "Ensalada",
-                    "imageUrl" to "https://www.allrecipes.com/thmb/mvO1mRRH1zTz1SvbwBCTz78CRJI=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/67700_RichPastaforthePoorKitchen_ddmfs_4x3_2284-220302ec8328442096df370dede357d7.jpg",
-                    "time" to 40,
-                    "difficulty" to "Fácil",
-                    "id" to 1
-                ),
-                mapOf(
-                    "name" to "Sopa",
-                    "imageUrl" to "https://cdn.loveandlemons.com/wp-content/uploads/2024/07/ratatouille.jpg",
-                    "time" to 30,
-                    "difficulty" to "Media",
-                    "id" to 2
-                ),
-                mapOf(
-                    "name" to "Postre",
-                    "imageUrl" to "https://hips.hearstapps.com/hmg-prod/images/best-soup-recipes-cheeseburger-soup-67042870d53fe.png?crop=1.00xw:1.00xh;0,0&resize=980:*",
-                    "time" to 15,
-                    "difficulty" to "Fácil",
-                    "id" to 3
-                )
-            )
+            // API GET RECIPES BY CATEGORY
+            LaunchedEffect(selectedCategory) {
+                scope.launch(Dispatchers.IO) {
+                    try {
+                        val authService = Retrofit
+                            .Builder()
+                            .baseUrl("https://recipes-api-gyam.onrender.com/")
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build()
+                            .create(RecipeService::class.java)
 
+                        val response = authService.get_recipes_by_category(categories[selectedCategory])
+                        withContext(Dispatchers.Main) {
+                            val recipes = response
+                        }
+                    } catch (e: Exception) {
+
+                    }
+                }
+            }
+
+            // RECIPES BY CATEGORY
             Column(
                 modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp) // Espacio entre elementos
@@ -150,7 +158,6 @@ fun HomeScreen(innerPadding: PaddingValues, navController: NavController) {
                     }
                 }
             }
-
         }
     }
 }
